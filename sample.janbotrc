@@ -1,0 +1,247 @@
+# $Id: sample.janbotrc,v 1.2 1998/11/03 04:13:11 kluzz Exp $
+
+#######################################################
+#                                                     #
+# This is a sample configuration file for JanBot 3.08 #
+# written by Jan Fredrik Leversund (janf@bits.no).    #
+#                                                     #
+# It is not a very powerful config, but it should be  #
+# enough to avoid unnecessary source code hacking     #
+# just to do some configuration changes.              #
+#                                                     #
+# Entry format is simple: <TagName> <Tag Content>,    #
+# where TagName is the name of the item to configure  #
+# and Tag Content is the the value for the item.      #
+# The value is sometimes required to be of a certain  #
+# format, but this will be specified later. When      #
+# entering strings containing spaces, they must be    #
+# enclosed in double or single quotes, depending on   #
+# whether you want to make use of escape sequences.   #
+#                                                     #
+# Comments must be on separate lines, starting with   #
+# the hash [#] character.                             #
+#                                                     #
+# Whitespace before entries or comments may be used   #
+# for readability, and blank lines are allowed.       #
+#                                                     #
+#######################################################
+
+
+# Nick: This is the nick the robot should use. This
+# should only occur once in the config file, and has
+# the format "Nick <word>". Note: Since JanBot is not
+# designed to reside on channels, there's no point in
+# writing code to make it use backup nicks.
+
+Nick JanBot
+
+# UserInfo: This is the information the server will
+# show whenever somebody uses WHO or WHOIS on the bot.
+# It should only occur once in the config file and has
+# the format "UserInfo '<some text>'". Note that if
+# StealthMode is used, this should be changed to something
+# far less revealing.
+
+UserInfo "/CTCP JanBot HELP"
+
+# Server: Specifies a server which the robot should reside
+# on. It has the format "Server <hostname> [port]", and it
+# you may specify as many servers as you like. If required,
+# the bot will perform "server walking", that is, it will
+# connect to the next server in the list if connection to
+# the current server is lost (useful if a server has a low
+# Excess Flood limit). More servers can be added at run time.
+
+Server irc-2.mit.edu 6667
+
+# BotHome: This is the "home" of the robot, where all the
+# necessary auxillary files are stored. The format is
+# "BotHome <full path>", and should only occur once.
+
+BotHome /home/janbot
+
+# FileDir: This tag specifies the path to the file storage.
+# This will be the root directory for the users of the
+# robot, meaning that this is the file area. (Much like FTP)
+# Syntax is "FileDir <full path", and should be specified
+# only once. This should NOT be the same path as BotHome.
+
+FileDir /home/janbot/files
+
+# UserFile: Specifies the file where all the user information
+# is stored. This is an ascii file, and can be edited manually,
+# though it's not recommended. Syntax is "UserFile <filename>".
+# The file will be located in the directory specified in BotHome,
+# and the tag should only occur once. This is only used if the
+# bot is compiled with the PLAINTEXT_USERFILE option in config.h.
+
+UserFile janbot.usr
+
+
+# NOT YET IMPLEMENTED
+
+# UserDBName: Specifies the name of the database file used for
+# storing the userlist, if the bot is compiled without the
+# PlAINTEXT_USERFILE option in config.h. The syntax is
+# "UserDBName <name>", where the name is usually something like
+# "janbot" or "userlist". Don't put any externsions in the name,
+# as ndbm will add this by itself. This tag should only occur once
+# in the config file.
+
+# UserDBName janbot
+
+# LogFile: This tag specifies the name of the file where the
+# robot should log all the events. Syntax is "LogFile <filename>",
+# and it will be located in the BotHome directory. Which events
+# are to be logged is specified with the LogLevel tag. Should
+# occur only once.
+
+LogFile janbot.log
+
+# HelpFile: Names the file containing all the help entries
+# for the robot. The syntax is "HelpFile <janbot.hlp>", and
+# usually points to the help file distributed with the robot
+# source. It should be located in the BotHome directory, and
+# this entry should occur only once.
+
+HelpFile janbot.hlp
+
+# MotdFile: This is the file containing the robot's "Message
+# of the day". Syntax is (as you probably have guessed by
+# now) "MotdFile <filename>", and the file must be located
+# in the BotHome directory. Should only occur once.
+
+MotdFile janbot.msg
+
+
+######################### FLAG SECTION ###########################
+
+# Reconnect: This flag tells the robot to reconnect if the
+# connection to the server is lost (caused by ping timeout,
+# kill, excess flood, etc.). Choices are Yes and No, and
+# you're probably better of by leaving this enabled.
+
+Reconnect Yes
+
+# ServerWalking: If this flag is set, the robot will connect
+# to the next server in the server list whenever it loses
+# the connection to the current server. Valid choices are
+# Yes and No, and in most cases Yes is the best choice.
+
+ServerWalking Yes
+
+# Overwrite: If this flag is specified, users will be able
+# to overwrite files when they are uploading to the robot.
+# Valid choices are Yes and No, and you should give this
+# careful consideration when you configure your robot.
+
+Overwrite Yes
+
+# TightArsedSecurity: With this flag enabled, the bot will be
+# darned right annoyingly secure. Basically it means that all
+# user info must be added manually by a master user, including
+# hostmask info. Unless you're fucking paranoid, say No. Saying
+# Yes does mean a lot of work.
+
+TightArsedSecurity No
+
+# PublicAccess: Enabling this flag will tell the bot to register
+# any unkown user if a CTCP <bot> IDENT <passwd> is issued. One
+# might ask why there has to be such extensive registration
+# procedures if anyone can register anyway. Well, a lot of info
+# is kept about the user once he/she's registered, and this info
+# should not be easily accessible to others, once entered into the
+# database. Valid choices for this flag are of course Yes and No.
+
+PublicAccess No 
+
+# StealthMode: This will make the bot act like a regular ircII
+# client when it receives a CTCP request. It will simulate the
+# replies the client would give, thus making it less evident that
+# it is really an irc robot. The bot control CTCP requests will
+# still work, but will not generate a reply. Valid choices are
+# Yes and No.
+
+StealthMode Yes
+
+# LogLevel: This is a list of events that should be output
+# to the LogFile. Syntax is "LogLevel <list of levels>", and
+# the valid levels are: ALL DCC CMD SERV CTCP SIG MSG CRAP MIRR,
+# and it is possible to "subtract" a level by putting a dash
+# (-) in front of the it. For instance; "ALL -DCC", will log
+# all kinds of events, except DCCs. Additionally, you can
+# specify NONE to disable all logging.
+
+LogLevel ALL -CMD -SIG
+
+
+################ OTHER THINGS THAT MIGHT BE USEFUL ###############
+
+# DCCTimeout: This tag specifies how many minutes the bot will
+# wait for a DCC or a Chat to be picked up before it's removed
+# from the offer list. Syntax is "DCCTimeout <minutes>", and
+# should only appear once in the config file.
+
+DCCTimeout 2
+
+# ChatTimeout: This tag specifies how many minutes a user can idle
+# before he/she's automatically disconnected. It will not affect
+# idling users with open DCCs, and will get only into action after
+# all transmissions are ended. Syntax is "ChatTimeout <minutes>",
+# and it should only appear once in the config file.
+
+ChatTimeout 15
+
+# PingTimeout: The server sends out a ping message to see if the client
+# is alive, usually every 90 seconds. If nothing is heard from the
+# server in a while, the bot should automatically switch to another one.
+# This tag sets the timeout for this to happen, and the syntax is
+# "PingTimeout <seconds>". Note: Do NOT set this timeout lower than the
+# ping interval used by the server. Go figure out why by yourself. If
+# this feature is undesired, set the timeout to 0 seconds, as this will
+# disable the timeout checking.
+
+PingTimeout 180
+
+# DCCLimit: This specifies the default DCC limit for new users. It
+# is not very useful, but since I was putting all kinds of stuff
+# into the config files, I might as well put this one in. The syntax
+# is "DCCLimit <number>", and should only occur once in the config
+# file.
+
+DCCLimit 5
+
+# DCCBlockSize: This size specifies the size of the buffer used by
+# the outgoing DCCs. Each DCC will allocate this amount of memory,
+# so if the block is big, the robot will consume a lot of memory.
+# Within reasonable limits, a bigger buffer will result in more speed,
+# but it will also make the robot consume more memory. somewhere in
+# the ballpark of 4-8k is probably good, depending on how slow the
+# lines are. The syntax is simply "DCCBlockSize <size in bytes>".
+
+DCCBlockSize 4096
+
+# ScheduledWrite: This interval specifies how many seconds there are
+# between each time the user list is written to the user file. A nice
+# value for this is 600 seconds (10 minutes, in case your math sux),
+# and the syntax is "ScheduledWrite <seconds>".
+
+ScheduledWrite 600
+
+# DefaultFlags: This tag specifies which flags should be enabled when
+# adding a new user to the bot. It works much like LogLevel, and the
+# syntax is "DefaultFlags <flag list>". It should only occur once in
+# the config file, and the valid flags are: ALL AUTO SORT MOTD RSUM
+# and TAR. It is possible to prefix a flag with a dash (-), thus
+# disabling a flag. "ALL -AUTO" will enable all flags except AUTO.
+# You may also specify NONE to disable all flags. Note that SORT means
+# that directory listings will be given by date and not alphabetically.
+
+DefaultFlags ALL -SORT
+
+# DefaultRatio: This is the default Uplaod/Download ratio for the
+# ratio system. It is only in use when the ratio system is compiled
+# into the robot binary. The syntax is "DefaultRatio <ratio>".
+
+DefaultRatio 5
+

@@ -1,0 +1,210 @@
+$Id: README,v 1.3 1998/11/07 19:14:11 kluzz Exp $
+
+
+                                   JanBot
+
+                                 written by
+
+                              Jan F. Leversund
+                               (janf@bits.no)
+
+
+[1] What the heck is JanBot?
+
+    JanBot is a concurrent file server for iRC.   It hangs out on iRC like
+    most other iRC automatons/robots, and acts like an FTP server for it's
+    users.  It does however NOT sit on any channels, and does not have any
+    vanity features like channel or user protection.   If that is what you
+    are looking for,  you'd be better off getting eggdrop, vladbot or some
+    of the numerous "battle & rampage" bots available. JanBot is, and will
+    never be anything but, a sophisticated file server. But it's extremely
+    good at it's job.
+
+    JanBot is written in C by Jan Fredrik Leversund (KluZz@iRC),   and was
+    initially  developed on Linux.   It has been reported  to require only
+    minor changes to  compile on FreeBSD & NetBSD,  and the author has had
+    success in porting it to Solaris 2.X, BSDi, IRIX and HP-UX.  The build
+    system uses autoconf, so it should be quite easy to compile.
+
+[2] But isn't this just a simple robot without any channel features?
+
+    Both yes and no. JanBot not a simple robot.  Under the hood is a quite
+    powerful multiprocess robot engine, which makes it possible for JanBot
+    to serve many users simultaneously, serve them well,  and last but not
+    least; serve them fast.  In order to do this, all unecessary features,
+    like channel/user protection,  botlink networks,  "battle and rampage" 
+    features and so on has been dropped,   and all the work has been about
+    improving reaction times, DCC speeds, ease to use, etc. Everything has
+    been done to make this the _BEST_ iRC file server available. Here is a
+    list of some of the features in this wonder of modern programming:
+
+    * Multiprocess:  JanBot sets up a separate process  for each connected
+      user. This process handles all the DCC requests for this user, which
+      means that a LOT of DCCs can be handled simultaneously,  the chances
+      of disturbing other users are minimized,  and the interface reaction
+      time is improved drastically.  "Disturbing other users"  is merely a
+      nice way to say that if one user puts heavy load on JanBot,  it will
+      not affect the DCC & reaction speeds for the other users, except for
+      whatever is due to system limitations.
+
+    * Speed:  JanBot uses the ultra fast HyperDCC  technology to bring the 
+      DCC speeds right up there with FTP.  The technology was developed by
+      Annatar@iRC (annatar@cow.pasture.com), who has put a lot of time and
+      effort into developing the "HyperDCC theory of DCC speed increases".
+      The usual DCC implementation  is probably one of the least effective
+      transfer protocols around, with it's  "Have you got it? Yes I've got
+      it" transfer method.  People have  reported speed increases of up to
+      60% after  HyperDCC was implemented,  which is quite an achievement.
+      NOTE:  HyperDCC does not require a  special client to receive files,
+      it's merely a server side implementation.
+
+    * Ease: JanBot has incorporated a set of commands especially developed
+      to make the server easy and quick to use.  Most commands accepts any
+      wildcards as parameters, including the SEND/GET and CD commands, and
+      the robot will queue all requests that exceeds the user's DCC limit.
+      And as if that's not enough,  JanBot will automatically generate tar
+      files if a directory  is requested  for sending,  or it will recurse
+      through the directory, sending all files it encounters.  All of this
+      of course at hyperspeed.
+
+    * Individualism:  Each user has a quite  extensive set of  information
+      stored,  including nickname,  allowed hostmasks, encrypted password,
+      user level, flags applying to each user,  and so on.  Whenever these
+      records are altered, the changes will be stored,  and the robot will
+      "remember" all the settings next time the user connects.
+
+    * mIRC Support:  One of the most widely  used iRC clients  nowadays is
+      the mIRC client for Windows(tm), written by Khaled Mardam-Bey.
+      Although not everybody likes this client  (the author of JanBot does
+      indeed hate it),  it does have a useful  feature in the "DCC Resume"
+      protocol.   This makes it possible to resume an interrupted transfer
+      at the point where it was cut off.  And guess what:  JanBot supports
+      it! Yes sir,  you can safely press the "Resume" button whenever mIRC
+      asks you to,  and JanBot  will nicely resume the file at the correct
+      position. This even works for the automatically generated tar files.
+      Right now,  JanBot will NOT request a  DCC Resume if you are sending
+      a file to it. This will probably be added shortly.
+
+    * Upload/Download ratios:  A very common feature among the more hitech
+      FTP servers is a ratio system.  Basically it  makes sure that anyone
+      using the server gives something instead of just leeching. Commonly,
+      there's a ratio of 1 : something, meaning that if a user uploads say 
+      1mb,  he is allowed to download 5mb in return.  This system has also
+      implemented in JanBot, and if required,  it can be compiled into the 
+      JanBot binary.
+
+[3] Wow, I like this! Where can JanBot be found?
+
+    The latest version of JanBot can always be found at:
+
+    * ftp://ftp.hib.no/pub/irc/janbot/
+
+    Just go for the file with the highest version number.
+
+[4] Okay, I got the file, now what do I do?
+
+    Now you need to install the bot on your system.  As of version 3.08 it
+    uses GNU autoconf  to determine  how to compile the bot,  so it should
+    be quite easy to make it work. There's no magic involved in setting up
+    the bot,  but some familiarity with the basic workings of an irc robot
+    is recommended.
+
+    1. Extract the contents of the distribution archive like this:
+
+         gunzip -c janbot-3.08.tar.gz |tar xfv -
+
+       or if you have GNU tar (which you should):
+
+         tar xfvz janbot-3.08.tar.gz
+
+    2. Enter the janbot-3.08 directory.
+
+    3. Run configure to create a Makefile:
+
+         ./configure
+
+       If you want upload/download ratios enabled, simply do this instead:
+
+         ./configure --enable-ratios
+
+       There are a few other things that can be  enabled as well,  use the
+       --help option with configure to get a list of options.
+
+    4. Run the make utility to build the bot executable:
+
+         make
+
+       Everything should build nicely.  If not, happy debugging!  Oh,  you
+       might wanna consider sending a mail to the author if something goes
+       really wrong,  or if you're trying  to compile  it on some  unknown
+       system (unknown to the author, that is).
+
+    5. You should  now have  an executable  file named 'janbot',  which is
+       really all you need to run the bot.
+
+    6. Copy the  sample.janbotrc  to  ~/.janbotrc,  or to a file  of  your
+       choice.  JanBot will  look for  ~/.janbotrc by default,  unless you
+       specify otherwise using the -l command line parameter.
+
+    7. Edit the file you copied to fill your needs.  Pay special attention
+       To the Nick and  Server config  lines.  Some of the config tags are
+       only operational if  certain parts of the code is compiled into the
+       bot binary.
+
+    8. If you do not already have a userlist,  run janbot with the command 
+       line parameter -m to create a master user.  Level 3 is the Superior
+       Being level.
+
+    9. Start the bot.  If everything goes well, you should be able to make
+       contact with your bot on irc.  Try /CTCP <botnick> HELP to get some
+       help to get started,  unless,  of course,  your robot is running in
+       stealth mode.
+
+    That's just about it. All maintainance is done from iRC, so you should
+    not need to edit any of the files anymore,  except maybe the .janbotrc 
+    when new servers needs to  be added and so on.   You no longer need to
+    restart the robot to activate all changes,   as most parts of the file
+    can be rehashed at run time.
+
+[5] It is mine, mine, all mine! Well, actually, it's your's too now.
+
+    JanBot is Copyright (C) 1996, 1997, 1998 by Jan Fredrik Leversund.  As
+    of version 3.08,  JanBot is released under the GNU Public License: 
+    
+        This program  is free software;  you can redistribute it and/or
+        modify it under  the terms of the  GNU  General  Public License
+        as published the  Free  Software  Foundation;  either version 2
+        of the License, or (at your option) any later version.
+
+        This program is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY;  without even the implied warranty of
+        MERCHANTABILITY  or  FITNESS FOR A PARTICULAR PURPOSE.  See the
+        GNU General Public License for more details.
+
+        You should  have received  a copy  of  the  GNU  General Public
+        License  along with  this program;  if not,  write to  the Free
+        Software Foundation, Inc.,  59 Temple Place, Suite 330, Boston,
+        MA  02111-1307  USA
+
+    The full license is located  in the file called COPYING,  which should
+    be in the JanBot distribution tarball.
+
+[6] It's not my fucking fault!
+
+    The author of JanBot  is not to be held  responsible for any damage to 
+    software or hardware,  lost income,  broken refridgerators,  divorces, 
+    mutated children, dog poo on the floor,  natural disasters, invasions,
+    burglaries, flat tires and so on.  You are using this software at your
+    own risk, so if shit happens: It's not my fucking fault!
+
+[7] My eternal gratitude to:
+
+    * The people on Drive By Net 3, for months after months of testing and
+      suffering. I couldn't have done it without you.
+    * Annatar (also DBN3) for developing the HyperDCC  technology which is 
+      partially what makes JanBot so unique,  and for helping out on a lot
+      of the programming issues.
+    * The few people that have mailed me suggestions and bug reports.  You
+      know who you are.
+
+Ththththat's all folks!

@@ -1,0 +1,37 @@
+$Id: TODO,v 1.2 1998/11/22 01:05:12 kluzz Exp $
+
+* Add userlist file encryption. Not quite sure which method to use yet,
+  but some time in the future it will be done. (I seem to have given myself
+  more trouble by changing the file format from binary to ascii.)
+* Add asynchronous server/DCC connecting (nonblocking connect()). This
+  does also include a server message queue of some sort. NOTE: As of March
+  26 1997 DCC connecting is non blocking. Non blocking server connects might
+  be of no use, don't hold your breath for it to appear.
+* Fix the damned logging. (It works now, but doesn't log much.)
+* Complete the mIRC DCC Resume support for incoming DCCs. Right now
+  only outgoing DCCs can be resumed.
+* Add a bot mirror system. (I imagine this will be a hell of a job.)
+* Add an upload database to the ratio system, to prevent duplicate files. I
+  am not sure what's the best method to use. Considering dbm/gdbm/ndbm. The
+  most widely supported is dbm, however ndbm also seems to be available on
+  most systems. Since it's a tad bit more advanced than dbm, ndbm will be the
+  database manager of choice (or gdbm in ndbm compatibility mode).
+* Add a VIEW command to display contents of archives, file_id.diz files etc.
+* Rewrite the security settings to make it more flexible.
+* Implement some more useful commands like RM, RMDIR, MV and so on.
+* Make a archive testing command of some sort, so that the users may test the
+  integrity of archive files. Maybe this will be redundant when the VIEW
+  command is implemented.
+* Port JanBot to Digital Unix. I've been told it works 99.5% already. =)
+* Port JanBot to IRIX. Outkast told me he had done it with some minor changes,
+  but something was not working. Possibly an mIRC bug. Ported, needs testing.
+* Change the help file format, and make it stay in memory (optionally).
+* Port to AIX, Ultrix (fat chance), SCO Unix, OpenBSD, NeXT, NCR Unix, Unixware
+* SOCKS4/5 support. Hah! (Actually, this doesn't look too hard).
+* Scheduling - Offline time etc.
+* Global DCC limit / Brute force User DCC limit.
+* Transferstats (what was that all about?)
+* Make JanBot use multithreading, if possible. This will mainly mean that the
+  DCC transfers will be even faster than with HyperDCC. It will probably not
+  involve any code updates around the user interaction. The rest of the code
+  is probably not reentrant.

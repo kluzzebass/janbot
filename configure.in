@@ -1,0 +1,126 @@
+dnl $Id: configure.in,v 1.4 1998/11/22 01:05:12 kluzz Exp $
+
+dnl Process this file with autoconf to produce a configure script.
+AC_INIT(janbot.c)
+AC_CONFIG_HEADER(config.h)
+
+dnl Checks for programs.
+AC_PROG_CC
+if test "$CC" = "gcc"; then
+	CFLAGS="$CFLAGS -Wall"
+fi
+
+AC_PATH_PROG(RM,rm)
+AC_PATH_PROG(SHELL,sh)
+AC_PATH_PROG(TAR_PATH,tar)
+
+if test "$TAR_PATH" = ""; then
+	AC_MSG_WARN(You will need GNU tar to generate tar files from directories on the fly.)
+else
+	AC_MSG_CHECKING(tar version)
+	set `$TAR_PATH --version 2>&1 | head -1 | sed -e 's/.*GNU.*/GNU/'`
+	if test "$1" != "GNU"; then
+		AC_MSG_RESULT([not GNU])
+		AC_MSG_WARN(You will need GNU tar to generate tar files from directories on the fly.)
+	else
+		AC_MSG_RESULT([$1 (ok)])
+		AC_DEFINE_UNQUOTED(TAR_PATH,"${TAR_PATH}")
+	fi
+fi
+
+
+dnl Checks for libraries.
+AC_CHECK_LIB(crypt,crypt)
+AC_CHECK_LIB(socket,socket)
+AC_CHECK_LIB(nsl,gethostbyname)
+
+dnl Checks for header files.
+AC_HEADER_DIRENT
+AC_HEADER_STDC
+AC_HEADER_SYS_WAIT
+AC_CHECK_HEADERS(crypt.h fcntl.h strings.h sys/ioctl.h sys/time.h unistd.h sys/utsname.h sys/statfs.h sys/vfs.h)
+
+dnl Checks for typedefs, structures, and compiler characteristics.
+AC_TYPE_SIZE_T
+AC_TYPE_PID_T
+AC_TYPE_MODE_T
+AC_TYPE_UID_T
+AC_HEADER_TIME
+AC_STRUCT_TM
+AC_CHECK_SIZEOF(short,2)
+AC_CHECK_SIZEOF(int,4)
+AC_CHECK_SIZEOF(long,4)
+AC_CHECK_SIZEOF(long long,8)
+
+dnl Checks for library functions.
+AC_FUNC_FNMATCH
+AC_TYPE_SIGNAL
+AC_FUNC_VPRINTF
+AC_CHECK_FUNCS(gethostname mkdir select socket strdup strstr uname statfs)
+
+if test `uname -s` = "SunOS"; then
+	AC_MSG_CHECKING(gethostname prototype)
+	if test `uname -r|cut -c1-3|tr -d '.'` -lt 56; then
+		AC_MSG_RESULT([nope, have to prototype it myself])
+		AC_DEFINE(HAVE_NO_GETHOSTNAME_PROTO)
+	else
+		AC_MSG_RESULT([yup, it's there])
+	fi
+fi
+
+
+
+dnl --enable and --with directives
+
+AC_MSG_CHECKING(whether to enable upload/download ratios)
+AC_ARG_ENABLE(ratios,
+[  --disable-ratios		Disable upload/download ratios in JanBot.],
+[
+	if test "$enableval" = "no"; then
+		AC_DEFINE(ENABLE_RATIOS,0)
+		AC_MSG_RESULT(no)
+	else
+		AC_DEFINE(ENABLE_RATIOS)
+		AC_MSG_RESULT(yes)
+	fi
+],
+[
+	AC_DEFINE(ENABLE_RATIOS)
+	AC_MSG_RESULT(yes)
+])
+
+if test "$TAR_PATH" != ""; then
+	AC_MSG_CHECKING(whether to enable tar)
+	AC_ARG_ENABLE(tar,
+	[  --disable-tar		   Disable on-the-fly tar file generation.],
+	[
+		if test "$enableval" = "no"; then
+			AC_DEFINE(ENABLE_TAR,0)
+			AC_MSG_RESULT(no)
+		else
+			AC_DEFINE(ENABLE_TAR)
+			AC_MSG_RESULT(yes)
+		fi
+	],
+	[
+		AC_DEFINE(ENABLE_TAR)
+		AC_MSG_RESULT(yes)
+	])
+fi
+
+AC_MSG_CHECKING(whether to enable debugging)
+AC_ARG_ENABLE(debugging,
+[  --enable-debugging	  Enable debug mode. Naturally only for debugging.],
+[
+	if test "$enableval" = "yes"; then
+		AC_DEFINE(ENABLE_DEBUG)
+		AC_MSG_RESULT([yes, super duper debug mode enabled])
+	else
+		AC_MSG_RESULT(no)
+	fi
+],
+[
+	AC_MSG_RESULT(no)
+])
+
+AC_OUTPUT(Makefile)

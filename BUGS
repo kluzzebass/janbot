@@ -1,0 +1,8 @@
+$Id: BUGS,v 1.1.1.1 1998/10/31 23:21:25 kluzz Exp $
+
+This is a quick list of the known bugs, that things that will be taken
+care of in the future. No need to report these, in other words.
+
+  * The bot is unable to detect a lost connection due to crashed
+    systems. This happens very often for people using operating
+    system from a certain Redmond/WA based company.

@@ -1,0 +1,54 @@
+# Main Makefile for JanBot
+# Copyright (C) 1998 Jan Fredrik Leversund.
+
+# $Id: Makefile.in,v 1.1.1.1 1998/10/31 23:21:25 kluzz Exp $
+
+.SUFFIXES:
+.SUFFIXES: .c .o
+
+RM	=	@RM@
+SHELL	=	@SHELL@
+
+CC	=	@CC@
+CFLAGS	=	-I. @CFLAGS@
+LDFLAGS	=	@LDFLAGS@
+LIBS	=	@LIBS@
+DEFS	=	@DEFS@
+
+PROG	=	janbot
+
+SOURCES	=	chat.c\
+		child.c\
+		commands.c\
+		config.c\
+		ctcp.c\
+		dcc.c\
+		fs.c\
+		janbot.c\
+		parseline.c\
+		parser.c\
+		server.c\
+		stuff.c\
+		userlist.c
+
+OBJS	=	$(SOURCES:.c=.o)
+
+COMP.c	=	$(CC) $(CFLAGS) $(DEFS) $(INCLUDE) -c
+LINK.c	=	$(CC) $(CFLAGS) $(LDFLAGS) $(LIBS) -o $@
+
+
+all: $(PROG)
+
+$(PROG): $(OBJS)
+	$(LINK.c) $(OBJS)
+
+.c.o:
+	$(COMP.c) $*.c
+
+clean:
+	$(RM) -f core $(OBJS) $(PROG)
+
+distclean: clean
+	$(RM) -f Makefile config.h config.status config.cache config.log
+
+
