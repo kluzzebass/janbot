@@ -118,3 +118,6 @@
 
 /* Define if you have the <sys/vfs.h> header file.  */
 #undef HAVE_SYS_VFS_H
+
+/* Define if you have the <sys/mount.h> header file.  */
+#undef HAVE_SYS_MOUNT_H

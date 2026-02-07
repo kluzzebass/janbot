@@ -34,7 +34,7 @@ FILE *logfile; /* Descriptor for the log file. */
 
 
 /* These comments are from the previous JanBot, the ircII bot. */
-static char *toolowlist[]={
+char *toolowlist[]={
 "Are you insane?\n",
 "You fail to invent a new command.\n",
 "Maybe you should try HELP?\n",
@@ -80,7 +80,7 @@ static char *toolowlist[]={
 "What is it, man?!\n",
 "What?!\n",
 "What do you mean?\n",
-"Què?",
+"Quï¿½?",
 NULL
 };
 
