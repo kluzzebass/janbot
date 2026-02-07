@@ -1,0 +1,17 @@
+# Build artifacts
+*.o
+janbot
+
+# Autoconf generated
+Makefile
+config.h
+config.status
+config.cache
+config.log
+
+# Editor backup files
+*~
+*.swp
+
+# Core dumps
+core
