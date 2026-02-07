@@ -8,6 +8,7 @@ config.h
 config.status
 config.cache
 config.log
+autom4te.cache/
 
 # Editor backup files
 *~
